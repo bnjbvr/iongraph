@@ -1,5 +1,5 @@
 # Build all known outputs by default.
-all: gv png pdf
+all: gv pdf
 
 # Convenient shorthand.
 repng: clean png
