@@ -3,12 +3,12 @@
 make_pdf_per_pass() {
 	# Use GNU parallel to generate dot files, if present.
 	type parallel &>/dev/null &&
-	ls -1 *.gv | parallel --gnu -- '(dot {} -Tpdf) > {}.pdf' &&
+	ls -1 *.gv | parallel --no-notice --gnu -- '(dot {} -Tpdf) > {}.pdf' &&
 	return 0
 
 	# Otherwise, generate dot files sequentially.
 	ls -1 *.gv | while read g; do
-		dot "${g}" -Tpdf > "${g}.gv.pdf"
+		dot "${g}" -Tpdf > "${g}.pdf"
 	done
 }
 
@@ -17,5 +17,5 @@ make_pdf_per_pass;
 # Concatenate the per-pass PDFs into a single PDF per-compilation.
 for i in func*-pass00-*.gv.pdf; do
     base=${i/-*/}
-    pdftk "${base}"-*.pdf cat output "${base}.gv.pdf"
+    pdftk "${base}"-*.pdf cat output "${base}.pdf"
 done
